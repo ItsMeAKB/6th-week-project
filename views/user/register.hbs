@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="/public/styles/userlogin.css">
+
+<!-- Login form -->
+<form action="/user/register" method="post" id="Login">
+  <!-- Left section of the form -->
+  <div class="left">
+    <div>
+      <p>Hello, Welcome!</p>
+      <a href="">Do you have an account? </a>
+      <input type="button" value="Login" />
+    </div>
+  </div>
+
+  <!-- Right section of the form -->
+  <div class="right">
+    <div>
+      <h1>Login</h1>
+
+      <!-- Email -->
+      <input type="email" name="Email" id="email" placeholder="Email" />
+
+      <!-- Password -->
+      <input type="password" name="Password" id="password" placeholder="Password" />
+
+      <!-- Confirm Password -->
+      <input type="password" name="ConfirmPassword" id="confirmPassword" placeholder="Confirm Password" />
+
+      <a href="">Forgot Password?</a>
+      <button type="submit">Login</button>
+    </div>
+  </div>
+</form>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("#Login").addEventListener("submit", formvalidate);
+  });
+
+  function formvalidate(e) {
+    e.preventDefault();
+
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value.trim();
+    var confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+    if (email === "" || password === "" || confirmPassword === "") {
+      Swal.fire("All fields are required");
+      return false;
+    } else if (password !== confirmPassword) {
+      Swal.fire("Passwords do not match");
+      return false;
+    }
+
+    // ✅ If validation passes, submit the form
+    e.target.submit();
+  }
+</script>
