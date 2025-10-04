@@ -9,7 +9,7 @@
           <!-- Welcome message and registration link -->
           <p>Hello, Welcome!</p>
           <a href="">Don't have an account? </a>
-          <input type="submit" name="" id="" value="Register" />
+          <input  name="" id="rgbtn" value="Register" method="get"/>
         </div>
       </div>
 
@@ -38,3 +38,13 @@
         </div>
       </div>
     </form>
+
+    <script>
+
+      document.getElementById("rgbtn").addEventListener("click", function(){
+        console.log('clicked')
+        
+        window.location.href = "/user/register"
+      })
+
+    </script>

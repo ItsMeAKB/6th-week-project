@@ -201,3 +201,16 @@ div.left div input[type="button"] {
   font-size: 16px; /* Setting font size */
   font-weight: bold; /* Making the font bold */
 }
+
+#rgbtn{
+    border: 2px solid #fff; /* Adding a white border */
+  width: 160px; /* Setting the button width */
+  height: 46px; /* Setting the button height */
+  border-radius: 8px; /* Adding a rounded corner effect */
+  background-color: transparent; /* Making the background transparent */
+  color: #fff; /* Setting text color to white */
+  cursor: pointer; /* Changing the cursor to a pointer */
+  font-size: 16px; /* Setting font size */
+  font-weight: bold; 
+  text-align: center;
+}
