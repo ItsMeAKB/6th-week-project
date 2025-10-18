@@ -6,9 +6,19 @@ const adminRoutes = require("./routes/admin")
 const path = require("path");
 const { connect } = require("http2");
 const connectDB = require("./db/connectDB");
+const session = require('express-session')
+const nocache = require('nocache')
 
-// const exphbs = require("express-handlebars");
 
+app.use(nocache())
+app.use(session({
+  secret: 'itsmeakb', // change this to something secure!
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    maxAge: 1000*60*60*24,
+  } 
+}));
 
 app.set("views",path.join(__dirname,"views"))
 app.set("view engine","hbs")

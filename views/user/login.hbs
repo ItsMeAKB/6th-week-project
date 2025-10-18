@@ -1,50 +1,55 @@
-    <link rel="stylesheet" href="/public/styles/userlogin.css">
-    
-    
-    <!-- Login form -->
-    <form action="" method="post" id="Login">
-      <!-- Left section of the form -->
-      <div class="left">
-        <div>
-          <!-- Welcome message and registration link -->
-          <p>Hello, Welcome!</p>
-          <a href="">Don't have an account? </a>
-          <input  name="" id="rgbtn" value="Register" method="get"/>
-        </div>
-      </div>
+<link rel="stylesheet" href="/public/styles/userlogin.css">
 
-      <!-- Right section of the form -->
-      <div class="right">
-        <div>
-          <!-- Login heading -->
-          <h1>Login</h1>
+<!-- Login form -->
+<form action="/user/login" method="post" id="login">
+  <!-- Left section of the form -->
+  <div class="left">
+    <div>
+      <p>Hello, Welcome!</p>
+      <a href="#">Don't have an account?</a>
+      <input type="button" id="rgbtn" value="Register" />
+    </div>
+  </div>
 
-          <!-- Username input field -->
-          <input type="text" name="Username" id="" placeholder="Username" />
-          
+  <!-- Right section of the form -->
+  <div class="right">
+    <div>
+      <h1>Login</h1>
 
-          <!-- Password input field -->
-          <input type="password" name="Password" id="" placeholder="Password" />
-         
+      <!-- ✅ Correct name attributes -->
+      <input type="text" name="email" id="email" placeholder="Email" autocomplete="off" />
+      <input type="password" name="password" id="password" placeholder="Password" autocomplete="new-password" />
 
-          <!-- Forgot password link -->
-          <a href="">Forgot Password?</a>
+      <a href="#">Forgot Password?</a>
+      <button type="submit">Login</button>
+    </div>
+  </div>
+</form>
 
-          <!-- Login button -->
-          <button type="submit">Login</button>
+<script>
+  // Register redirect
+  document.getElementById("rgbtn").addEventListener("click", function () {
+    console.log("clicked");
+    window.location.href = "/user/register";
+  });
 
-          <!-- Social login options -->
-         
-        </div>
-      </div>
-    </form>
+  // Validation
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("login").addEventListener("submit", formvalidate);
+  });
 
-    <script>
+  function formvalidate(e) {
+    e.preventDefault();
 
-      document.getElementById("rgbtn").addEventListener("click", function(){
-        console.log('clicked')
-        
-        window.location.href = "/user/register"
-      })
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value.trim();
 
-    </script>
+    if (email === "" || password === "") {
+      Swal.fire("All fields are required");
+      return false;
+    }
+
+    // ✅ Submit the form if valid
+    e.target.submit();
+  }
+</script>
