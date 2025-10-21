@@ -49,7 +49,7 @@ const loadLogin = (req, res) => {
 };
 
 const loadHome = (req,res)=>{
-  res.render('user/home')
+  res.render('user/home',{email:req.session.user.username})
 }
  
 
@@ -87,9 +87,15 @@ const login = async (req, res) => {
   }
 };
 
+const logout =(req,res)=>{
+   req.session.user=null
+   res.redirect('/user/login')
+}
+
 module.exports = { registerUser, 
                    loadRegister, 
                    login, 
                    loadLogin,
                    loadHome, 
+                   logout,
                   };
