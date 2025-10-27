@@ -1,0 +1,110 @@
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0d1117, #1f2937, #111827);
+    position: relative;
+    overflow: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(12px);
+    z-index: 0;
+  }
+
+  /* Panels style */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    box-shadow: 0 0 40px rgba(0,0,0,0.4);
+    padding: 3rem;
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+
+  .glass-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 50px rgba(59, 130, 246, 0.3);
+  }
+
+  .login-input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    transition: all 0.3s ease;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .login-input:focus {
+    border-color: #3b82f6;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    outline: none;
+  }
+
+  .login-button {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    background: linear-gradient(90deg, #2563eb, #7c3aed);
+    color: #fff;
+    transition: all 0.3s ease;
+  }
+
+  .login-button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.6);
+  }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .google-btn {
+    background: #ffffff;
+    color: #000;
+  }
+
+  .google-btn:hover {
+    background: #f1f1f1;
+  }
+
+  .facebook-btn {
+    background: #1877f2;
+    color: #fff;
+  }
+
+  .facebook-btn:hover {
+    background: #0f5fd1;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .flex-wrap-reverse {
+      flex-wrap: wrap-reverse;
+    }
+    .w-1-2 {
+      width: 100%;
+    }
+  }

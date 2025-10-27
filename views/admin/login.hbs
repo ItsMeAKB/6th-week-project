@@ -1,0 +1,92 @@
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/public/styles/adminLogin.css">
+
+
+
+<div class="flex w-full max-w-6xl flex-wrap-reverse relative text-white">
+
+  <!-- Left Side: Welcome -->
+  <div class="w-1/2 p-12 flex items-center justify-center w-1-2">
+    <div class="glass-panel text-center max-w-md">
+      <h1 class="text-5xl font-bold mb-6">Welcome Back, Admin!</h1>
+      <p class="text-lg text-gray-300 italic">
+        “The best way to predict the future is to create it.”
+      </p>
+    </div>
+  </div>
+
+  <!-- Right Side: Login -->
+  <div class="w-1/2 p-12 flex items-center justify-center w-1-2">
+    <div class="glass-panel text-center max-w-md">
+      <h2 class="text-3xl font-bold mb-6">Admin Login</h2>
+
+      <form action="/admin/login" method="post" id="loginForm" class="space-y-4">
+        <input type="text" id="email" name="email" placeholder="Username" required class="login-input" />
+        <input type="password" id="password" name="password" placeholder="Password" required class="login-input" />
+        <button type="submit" class="login-button">Login</button>
+      </form>
+
+      <!-- Social Buttons -->
+      <div class="mt-6 space-y-3">
+        <button class="social-btn google-btn">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" class="w-5 h-5"> Login with Google
+        </button>
+        <button class="social-btn facebook-btn">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" alt="Facebook" class="w-5 h-5"> Login with Facebook
+        </button>
+      </div>
+
+      <div id="loading" class="hidden mt-6">
+        <div class="border-4 border-white border-t-transparent w-6 h-6 rounded-full animate-spin mx-auto"></div>
+        <p class="mt-2 text-sm text-gray-400">Authenticating...</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("loginForm").addEventListener("submit", formvalidate);
+  });
+
+  function formvalidate(e) {
+    e.preventDefault();
+
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value.trim();
+
+    if (email === "" || password === "") {
+      Swal.fire("All fields are required");
+      return false;
+    }
+
+    // ✅ Submit the form if valid
+    e.target.submit();
+  }
+
+
+
+  const form = document.getElementById('loginForm');
+  const loading = document.getElementById('loading');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    form.classList.add('opacity-50', 'pointer-events-none');
+    loading.classList.remove('hidden');
+
+    setTimeout(() => {
+      loading.innerHTML = '<p class="text-xl font-semibold text-green-400 animate-bounce">✔ Login Successful!</p>';
+    }, 2000);
+  });
+
+
+
+   
+
+
+</script>
+

@@ -1,0 +1,78 @@
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+
+  body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff7eb3, #ff758c, #42a5f5, #7c4dff);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+    color: #fff;
+    overflow: hidden;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 60px 80px;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #ffe259, #ffa751, #43e97b, #38f9d7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 15px #fff; }
+    to { text-shadow: 0 0 25px #fffa, 0 0 40px #fff8; }
+  }
+
+  p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+
+  .logout-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 14px 40px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    color: #fff;
+    background: linear-gradient(135deg, #ff512f, #dd2476);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .logout-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+  }

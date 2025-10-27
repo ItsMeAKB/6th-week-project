@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/public/styles/adminDash.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div class="container">
+      <aside class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+          <li><i class="fas fa-users"></i> Users</li>
+          <li><i class="fas fa-cog"></i> Settings</li>
+        </ul>
+      </aside>
+
+      <main class="main">
+        <div class="main-content">
+          <header class="top-bar">
+            <div class="search-create">
+              <input type="text" id="search" placeholder="Search users..." />
+              <button class="btn-search">Search</button>
+              <button class="btn-create">+ Create User</button>
+            </div>
+            <button class="btn-logout">Logout</button>
+          </header>
+
+          <section class="user-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Password</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each users}}
+                  <tr>
+                    <td>{{this.email}}</td>
+                    <td>{{this.password}}</td>
+                    <td>
+                      <button
+                        class="edit-btn"
+                        data-id="{{this._id}}"
+                      >Edit</button>
+                      <button
+                        class="delete-btn"
+                        data-id="{{this._id}}"
+                      >Delete</button>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // Create user
+      document.querySelector(".btn-create").addEventListener("click", () => {
+        Swal.fire({
+          title: "<strong>Create New User</strong>",
+          icon: "info",
+          html: `
+            <input id="swal-username" class="swal2-input" placeholder="Enter username">
+            <input id="swal-password" class="swal2-input" type="password" placeholder="Enter password">
+            <button id="swal-submit" class="swal2-confirm swal2-styled" style="background-color:#3085d6; margin-top: 10px;">
+              Submit
+            </button>
+          `,
+          showConfirmButton: false,
+          showCloseButton: true,
+          didOpen: () => {
+            document.getElementById("swal-submit").addEventListener("click", async () => {
+              const email = document.getElementById("swal-username").value.trim();
+              const password = document.getElementById("swal-password").value.trim();
+
+              if (!email || !password) {
+                Swal.showValidationMessage("Please fill all fields");
+                return;
+              }
+
+              try {
+                const res = await fetch("/admin/user", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ email, password }),
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                  Swal.fire("Success", "User registered!", "success").then(() => location.reload());
+                } else {
+                  Swal.fire("Error", data.message || "Registration failed", "error");
+                }
+              } catch (error) {
+                Swal.fire("Error", "Something went wrong", "error");
+              }
+            });
+          },
+        });
+      });
+
+      // Edit / Delete logic using event delegation
+      const userList = document.querySelector("tbody");
+
+      userList.addEventListener("click", function (e) {
+        const row = e.target.closest("tr");
+        const userId = e.target.dataset.id;
+        const emailCell = row.children[0]; 
+        const passwordCell = row.children[1];
+
+        // Edit User
+        if (e.target.classList.contains("edit-btn")) {
+          Swal.fire({
+            title: "<strong>Edit User</strong>",
+            html: `
+              <input id="edit-email" class="swal2-input" placeholder="Email" value="${emailCell.textContent}">
+              <input id="edit-password" class="swal2-input" type="password" placeholder="New Password">
+              <button id="edit-submit" class="swal2-confirm swal2-styled" style="background-color:#3085d6; margin-top: 10px;">
+                Update
+              </button>
+            `,
+            showConfirmButton: false,
+            showCloseButton: true,
+            didOpen: () => {
+              document.getElementById("edit-submit").addEventListener("click", async () => {
+                const email = document.getElementById("edit-email").value.trim();
+                const password = document.getElementById("edit-password").value.trim();
+
+                if (!email) {
+                  Swal.showValidationMessage("Email cannot be empty");
+                  return;
+                }
+
+                try {
+                  const res = await fetch(`/admin/user/${userId}`, {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ email, password }),
+                  });
+
+                  const data = await res.json();
+
+                  if (res.ok) {
+                    Swal.fire("Success", "User updated!", "success").then(() => location.reload());
+                  } else {
+                    Swal.fire("Error", data.message || "Update failed", "error");
+                  }
+                } catch (err) {
+                  Swal.fire("Error", "Something went wrong", "error");
+                }
+              });
+            },
+          });
+        }
+
+        // Delete User
+        if (e.target.classList.contains("delete-btn")) {
+          Swal.fire({
+            title: "Are you sure?",
+            text: "This user will be permanently deleted.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              try {
+                const res = await fetch(`/admin/user/${userId}`, { method: "DELETE" });
+                if (res.ok) {
+                  row.remove();
+                  Swal.fire("Deleted!", "User has been deleted.", "success");
+                } else {
+                  const data = await res.json();
+                  Swal.fire("Error", data.message, "error");
+                }
+              } catch (err) {
+                Swal.fire("Error", "Request failed", "error");
+              }
+            }
+          });
+        }
+      });
+
+      // Search
+      document.getElementById("search").addEventListener("input", function () {
+        const searchTerm = this.value.toLowerCase();
+        const rows = userList.querySelectorAll("tr");
+        rows.forEach(row => {
+          const email = row.children[0].textContent.toLowerCase();
+          const password = row.children[1].textContent.toLowerCase();
+          row.style.display = (email.includes(searchTerm) || password.includes(searchTerm)) ? "" : "none";
+        });
+      });
+
+      // Logout
+      document.querySelector(".btn-logout").addEventListener("click", async () => {
+        const confirmLogout = confirm("Are you sure you want to logout?");
+        if (confirmLogout) {
+          try {
+            const res = await fetch("/admin/logout", { method: "GET" });
+            if (res.redirected) {
+              window.location.href = res.url;
+            } else {
+              window.location.href = "/admin/login";
+            }
+          } catch (err) {
+            console.error("Logout failed", err);
+            alert("Logout failed. Please try again.");
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
